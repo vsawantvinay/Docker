@@ -1,0 +1,19 @@
+name: OIDC AWS CRED SETUP
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout 
+        uses: actions/checkout@v6
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/my-github-role
+          role-session-name: github-actions-${{ github.run_id }}
+          aws-region: ap-south-1
+
+      - name: display aws identity
+        run: aws sts get-caller-identity
